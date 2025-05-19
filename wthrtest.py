@@ -18,14 +18,14 @@ city_list = load_cities()
 
 # Weather condition media mapping
 weather_media = {
-    "Clear":    {"icon": "☀️", "video": "https://www.youtube.com/embed/LlgLUQ2tx10"},
+    "Clear":    {"icon": "☀️", "video": "https://www.youtube.com/embed/0_jNjpVxUt0"},
     "Clouds":   {"icon": "☁️", "video": "https://www.youtube.com/embed/Jptq6mUa5IE"},
     "Rain":     {"icon": "🌧️", "video": "https://www.youtube.com/embed/SnUBb-FAlCY"},
     "Drizzle":  {"icon": "🌦️", "video": "https://www.youtube.com/embed/lSMVVLR9KIs"},
     "Thunderstorm": {"icon": "⛈️", "video": "https://www.youtube.com/embed/aPoXzzo2cSc"},
-    "Snow":     {"icon": "❄️", "video": "https://www.youtube.com/embed/LlgLUQ2tx10"},
-    "Mist":     {"icon": "🌫️", "video": "https://www.youtube.com/embed/LlgLUQ2tx10"},
-    "Default":  {"icon": "🌈", "video": "https://www.youtube.com/embed/LlgLUQ2tx10"}
+    "Snow":     {"icon": "❄️", "video": "https://www.youtube.com/embed/7BrIJrjxVxA"},
+    "Mist":     {"icon": "🌫️", "video": "https://www.youtube.com/embed/w3PDyTWlStk"},
+    "Default":  {"icon": "🌈", "video": "https://www.youtube.com/embed/QVGwC-tywO4"}
 }
 
 
