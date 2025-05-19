@@ -82,7 +82,7 @@ if st.button("🔍 Get Forecast"):
         with col2:
             st.markdown("### Weather vibes 🎥")
             st.markdown(f"""
-                <div style="position: relative; width: 100%; max-width: 200px; padding-top: 100%;">
+                <div style="position: relative; width: 50%; max-width: 600px; padding-top: 50%;">
                     <iframe src="{media['video'].replace('youtu.be/', 'www.youtube.com/embed/')}?autoplay=1&start=5&mute=1"
                             frameborder="0"
                             allow="autoplay; encrypted-media"
