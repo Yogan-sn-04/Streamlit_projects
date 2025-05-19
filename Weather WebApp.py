@@ -19,36 +19,36 @@ city_list = load_cities()
 weather_media = {
     "Clear": {
         "icon": "☀️",
-        "video": "https://www.youtube.com/embed/1fLV3LnD3JU"  # sunny day video
+        "video": "https://youtu.be/LlgLUQ2tx10?si=pmzwnLb9AVARK-GN"  # sunny day video
     },
     "Clouds": {
         "icon": "☁️",
-        "video": "https://www.youtube.com/embed/07rMLX9nPYI"  # cloudy sky video
+        "video": "https://youtu.be/LlgLUQ2tx10?si=pmzwnLb9AVARK-GN"  # cloudy sky video
     },
     "Rain": {
         "icon": "🌧️",
-        "video": "https://www.youtube.com/embed/nrU4zR7QXoc"  # raining video
+        "video": "https://youtu.be/LlgLUQ2tx10?si=pmzwnLb9AVARK-GN"  # raining video
     },
     "Drizzle": {
         "icon": "🌦️",
-        "video": "https://www.youtube.com/embed/nrU4zR7QXoc"
+        "video": "https://youtu.be/LlgLUQ2tx10?si=pmzwnLb9AVARK-GN"
     },
     "Thunderstorm": {
         "icon": "⛈️",
-        "video": "https://www.youtube.com/embed/tp7WbDlpbNs"  # thunderstorm video
+        "video": "https://youtu.be/LlgLUQ2tx10?si=pmzwnLb9AVARK-GN"  # thunderstorm video
     },
     "Snow": {
         "icon": "❄️",
-        "video": "https://www.youtube.com/embed/fBvPmY9sHgY"  # snow video
+        "video": "https://youtu.be/LlgLUQ2tx10?si=pmzwnLb9AVARK-GN"  # snow video
     },
     "Mist": {
         "icon": "🌫️",
-        "video": "https://www.youtube.com/embed/kk5zXEfPMrE"  # misty weather video
+        "video": "https://youtu.be/LlgLUQ2tx10?si=pmzwnLb9AVARK-GN"  # misty weather video
     },
     # Default fallback
     "Default": {
         "icon": "🌈",
-        "video": "https://www.youtube.com/embed/UvAAvErZZf8"  # relaxing nature video
+        "video": "https://youtu.be/LlgLUQ2tx10?si=pmzwnLb9AVARK-GN"  # relaxing nature video
     }
 }
 
