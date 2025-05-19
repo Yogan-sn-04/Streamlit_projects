@@ -19,7 +19,7 @@ city_list = load_cities()
 # Weather condition media mapping
 weather_media = {
     "Clear":    {"icon": "☀️", "video": "https://youtu.be/LlgLUQ2tx10"},
-    "Clouds":   {"icon": "☁️", "video": "https://youtu.be/LlgLUQ2tx10"},
+    "Clouds":   {"icon": "☁️", "video": "https://youtu.be/Jptq6mUa5IE?si=fqUOWxGJvDATsvMc"},
     "Rain":     {"icon": "🌧️", "video": "https://youtu.be/SnUBb-FAlCY?si=bB7lLXq90vDYQZDr"},
     "Drizzle":  {"icon": "🌦️", "video": "https://youtu.be/lSMVVLR9KIs?si=Q5xKQFArxddJ_peZ"},
     "Thunderstorm": {"icon": "⛈️", "video": "https://youtu.be/aPoXzzo2cSc?si=fzoEiKHPP-kxG7Hd"},
