@@ -18,15 +18,16 @@ city_list = load_cities()
 
 # Weather condition media mapping
 weather_media = {
-    "Clear":    {"icon": "☀️", "video": "https://youtu.be/LlgLUQ2tx10"},
-    "Clouds":   {"icon": "☁️", "video": "https://youtu.be/Jptq6mUa5IE?si=fqUOWxGJvDATsvMc"},
-    "Rain":     {"icon": "🌧️", "video": "https://youtu.be/SnUBb-FAlCY?si=bB7lLXq90vDYQZDr"},
-    "Drizzle":  {"icon": "🌦️", "video": "https://youtu.be/lSMVVLR9KIs?si=Q5xKQFArxddJ_peZ"},
-    "Thunderstorm": {"icon": "⛈️", "video": "https://youtu.be/aPoXzzo2cSc?si=fzoEiKHPP-kxG7Hd"},
-    "Snow":     {"icon": "❄️", "video": "https://youtu.be/LlgLUQ2tx10"},
-    "Mist":     {"icon": "🌫️", "video": "https://youtu.be/LlgLUQ2tx10"},
-    "Default":  {"icon": "🌈", "video": "https://youtu.be/LlgLUQ2tx10"}
+    "Clear":    {"icon": "☀️", "video": "https://www.youtube.com/embed/LlgLUQ2tx10"},
+    "Clouds":   {"icon": "☁️", "video": "https://www.youtube.com/embed/Jptq6mUa5IE"},
+    "Rain":     {"icon": "🌧️", "video": "https://www.youtube.com/embed/SnUBb-FAlCY"},
+    "Drizzle":  {"icon": "🌦️", "video": "https://www.youtube.com/embed/lSMVVLR9KIs"},
+    "Thunderstorm": {"icon": "⛈️", "video": "https://www.youtube.com/embed/aPoXzzo2cSc"},
+    "Snow":     {"icon": "❄️", "video": "https://www.youtube.com/embed/LlgLUQ2tx10"},
+    "Mist":     {"icon": "🌫️", "video": "https://www.youtube.com/embed/LlgLUQ2tx10"},
+    "Default":  {"icon": "🌈", "video": "https://www.youtube.com/embed/LlgLUQ2tx10"}
 }
+
 
 # Error Handler
 def show_error():
