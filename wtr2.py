@@ -79,20 +79,56 @@ if st.button("🔍 Get Forecast"):
         df['date'] = df['dt'].dt.date
         df['hour'] = df['dt'].dt.hour
 
-        # Get one forecast per day closest to 12PM
-        daily_forecast = df[df['hour'] == 12].groupby('date').first().head(5)
+        # One record closest to 12PM per day
+        daily_forecast = df[df['hour'] == 12].groupby('date').first()
 
-        st.markdown(f"### 🌤️ 5-Day Forecast for **{selected_city.title()}, {selected_country}**")
+        today = pd.Timestamp.now().date()
+        today_forecast = daily_forecast.loc[today] if today in daily_forecast.index else None
+        next_days_forecast = daily_forecast[daily_forecast.index > today].head(5)
 
-        for _, row in daily_forecast.iterrows():
+        # Show Today's Weather
+        if today_forecast is not None:
+            st.markdown(f"### 🌞 Today's Weather in **{selected_city.title()}, {selected_country}**")
+            weather_main = today_forecast['weather'][0]['main']
+            weather_desc = today_forecast['weather'][0]['description'].capitalize()
+            temp = today_forecast['main']['temp']
+            feels_like = today_forecast['main']['feels_like']
+            humidity = today_forecast['main']['humidity']
+            wind_speed = today_forecast['wind']['speed']
+            media = weather_media.get(weather_main, weather_media["Default"])
+
+            col1, col2 = st.columns([1, 2])
+            with col1:
+                st.markdown(f"<h2 style='color:#f39c12;'>{media['icon']} Weather Today</h2>", unsafe_allow_html=True)
+                st.write(f"**Condition:** {weather_desc}")
+                st.write(f"🌡️ Temperature: {temp}°C (Feels like {feels_like}°C)")
+                st.write(f"💧 Humidity: {humidity}%")
+                st.write(f"💨 Wind Speed: {wind_speed} m/s")
+            with col2:
+                st.markdown("### Weather vibes 🎥")
+                st.markdown(f"""
+                    <div style="position: relative; width: 100%; max-width: 600px; padding-top: 50%;">
+                        <iframe src="{media['video']}?autoplay=1&start=5&mute=1"
+                                frameborder="0"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                        </iframe>
+                    </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("---")
+
+        # Show Next 5 Days
+        st.markdown(f"### 📆 Forecast for the Next 5 Days")
+        for date, row in next_days_forecast.iterrows():
             weather_main = row['weather'][0]['main']
             weather_desc = row['weather'][0]['description'].capitalize()
             temp = row['main']['temp']
             feels_like = row['main']['feels_like']
             humidity = row['main']['humidity']
             wind_speed = row['wind']['speed']
-            date_str = row['dt'].strftime("%A, %d %b %Y")
-
+            date_str = pd.to_datetime(date).strftime("%A, %d %B %Y")
             media = weather_media.get(weather_main, weather_media["Default"])
 
             with st.container():
@@ -106,7 +142,7 @@ if st.button("🔍 Get Forecast"):
                 with col2:
                     st.image(f"https://openweathermap.org/img/wn/{row['weather'][0]['icon']}@2x.png", width=80)
 
-            st.markdown("---")
+                st.markdown("---")
 
         st.caption("🌍 Powered by OpenWeatherMap & curated weather videos 🎬")
 
