@@ -18,56 +18,28 @@ def load_city_country_pairs():
 
 city_df = load_city_country_pairs()
 
-# Weather condition media mapping (icon, video for iframe, and background video)
+# Weather condition media mapping
 weather_media = {
-    "Clear": {
-        "icon": "☀️",
-        "video": "https://www.youtube.com/embed/0_jNjpVxUt0",
-        "bg": "https://player.vimeo.com/external/322244773.sd.mp4?s=fd5b6a6b2a69a6f20285fbd00f2fa77caa7e10b0&profile_id=139"
-    },
-    "Clouds": {
-        "icon": "☁️",
-        "video": "https://www.youtube.com/embed/Jptq6mUa5IE",
-        "bg": "https://player.vimeo.com/external/449354723.sd.mp4?s=74c9cc27ffcc97c59e5e5ec169dbd6dc3457aa31&profile_id=139"
-    },
-    "Rain": {
-        "icon": "🌧️",
-        "video": "https://www.youtube.com/embed/SnUBb-FAlCY",
-        "bg": "https://player.vimeo.com/external/398189582.sd.mp4?s=6d4e2be6e1e4e1e4979d5d7cc3c6ea6f749c3e9e&profile_id=139"
-    },
-    "Drizzle": {
-        "icon": "🌦️",
-        "video": "https://www.youtube.com/embed/lSMVVLR9KIs",
-        "bg": "https://player.vimeo.com/external/352006248.sd.mp4?s=6b2ab0b2eb9eec2c46e91859f9eb0106722f3c39&profile_id=139"
-    },
-    "Thunderstorm": {
-        "icon": "⛈️",
-        "video": "https://www.youtube.com/embed/aPoXzzo2cSc",
-        "bg": "https://player.vimeo.com/external/437594625.sd.mp4?s=4190b38e5e4d1052bb4265e899e828cf2a735b87&profile_id=139"
-    },
-    "Snow": {
-        "icon": "❄️",
-        "video": "https://www.youtube.com/embed/7BrIJrjxVxA",
-        "bg": "https://player.vimeo.com/external/357042091.sd.mp4?s=baf59e793514f740e1566f933d9cfe42456dc2b2&profile_id=139"
-    },
-    "Mist": {
-        "icon": "🌫️",
-        "video": "https://www.youtube.com/embed/w3PDyTWlStk",
-        "bg": "https://player.vimeo.com/external/358494835.sd.mp4?s=780e5fe6323bc648b93815b187a3289f34a0a5d5&profile_id=139"
-    },
-    "Default": {
-        "icon": "🌈",
-        "video": "https://www.youtube.com/embed/QVGwC-tywO4",
-        "bg": "https://player.vimeo.com/external/421702967.sd.mp4?s=a3cf84331a8d2853be131b168bb916e158826d3f&profile_id=139"
-    }
+    "Clear": {"icon": "☀️", "video": "https://www.youtube.com/embed/0_jNjpVxUt0"},
+    "Clouds": {"icon": "☁️", "video": "https://www.youtube.com/embed/Jptq6mUa5IE"},
+    "Rain": {"icon": "🌧️", "video": "https://www.youtube.com/embed/SnUBb-FAlCY"},
+    "Drizzle": {"icon": "🌦️", "video": "https://www.youtube.com/embed/lSMVVLR9KIs"},
+    "Thunderstorm": {"icon": "⛈️", "video": "https://www.youtube.com/embed/aPoXzzo2cSc"},
+    "Snow": {"icon": "❄️", "video": "https://www.youtube.com/embed/7BrIJrjxVxA"},
+    "Mist": {"icon": "🌫️", "video": "https://www.youtube.com/embed/w3PDyTWlStk"},
+    "Default": {"icon": "🌈", "video": "https://www.youtube.com/embed/QVGwC-tywO4"}
 }
 
-# Weather API
-def get_weather(city, country, units="metric"):
+# Error Handler
+def show_error():
+    st.error("💥 Weather server dodged our request like a ninja! Try again or check your city name.")
+
+# Weather Fetcher (Forecast)
+def get_weather_forecast(city, country, units="metric"):
     try:
         API_KEY = "4d8fb5b93d4af21d66a2948710284366"
         query = f"{city},{country}"
-        URL = f"http://api.openweathermap.org/data/2.5/weather?q={query}&appid={API_KEY}&units={units}"
+        URL = f"http://api.openweathermap.org/data/2.5/forecast?q={query}&appid={API_KEY}&units={units}"
         response = requests.get(URL)
         if response.status_code == 200:
             return response.json()
@@ -75,11 +47,7 @@ def get_weather(city, country, units="metric"):
     except:
         return None
 
-# Error handler
-def show_error():
-    st.error("💥 Weather server dodged our request like a ninja! Try again or check your city name.")
-
-# Title
+# Stylish Title
 st.markdown("""
     <h1 style='text-align:center; color:#4B89DC; font-family: "Segoe UI", sans-serif;'>
         🧙‍♂️ Weather Wizard 🌦️
@@ -88,78 +56,59 @@ st.markdown("""
 
 st.write("Start typing your city and country:")
 
-# Selectbox
+# City Selector with Country
 city_label = st.selectbox(
     "📍 Choose your location (City, Country)",
     options=city_df['label'].tolist(),
     index=city_df['label'].tolist().index("Delhi, India") if "Delhi, India" in city_df['label'].tolist() else 0
 )
 
+# Extract city and country for query
 city_row = city_df[city_df['label'] == city_label].iloc[0]
 selected_city = city_row['city']
 selected_country = city_row['country']
 
-# Button click
+# Get Weather Button
 if st.button("🔍 Get Forecast"):
-    data = get_weather(selected_city, selected_country)
-    if data:
-        weather_main = data['weather'][0]['main']
-        media = weather_media.get(weather_main, weather_media["Default"])
+    with st.spinner("Fetching weather data..."):
+        forecast_data = get_weather_forecast(selected_city, selected_country)
 
-        # Inject background video
-        st.markdown(
-            f"""
-            <style>
-            .stApp {{
-                background: transparent;
-            }}
-            .weather-bg {{
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-                object-fit: cover;
-                opacity: 0.4;
-            }}
-            </style>
-            <video autoplay loop muted class="weather-bg">
-                <source src="{media['bg']}" type="video/mp4">
-            </video>
-            """,
-            unsafe_allow_html=True
-        )
+    if forecast_data:
+        df = pd.DataFrame(forecast_data['list'])
+        df['dt'] = pd.to_datetime(df['dt'], unit='s')
+        df['date'] = df['dt'].dt.date
+        df['hour'] = df['dt'].dt.hour
 
-        # Display forecast
-        weather_desc = data['weather'][0]['description'].capitalize()
-        temp = data['main']['temp']
-        feels_like = data['main']['feels_like']
-        humidity = data['main']['humidity']
-        wind_speed = data['wind']['speed']
+        # Get one forecast per day closest to 12PM
+        daily_forecast = df[df['hour'] == 12].groupby('date').first().head(5)
 
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            st.markdown(f"<h2 style='color:#f39c12;'>{media['icon']} Weather in <strong>{selected_city.title()}, {selected_country}</strong></h2>", unsafe_allow_html=True)
-            st.write(f"**Condition:** {weather_desc}")
-            st.write(f"🌡️ Temperature: {temp}°C (Feels like {feels_like}°C)")
-            st.write(f"💧 Humidity: {humidity}%")
-            st.write(f"💨 Wind Speed: {wind_speed} m/s")
+        st.markdown(f"### 🌤️ 5-Day Forecast for **{selected_city.title()}, {selected_country}**")
 
-        with col2:
-            st.markdown("### Weather vibes 🎥")
-            st.markdown(f"""
-                <div style="position: relative; width: 100%; max-width: 600px; padding-top: 50%;">
-                    <iframe src="{media['video']}?autoplay=1&start=5&mute=1"
-                            frameborder="0"
-                            allow="autoplay; encrypted-media"
-                            allowfullscreen
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                    </iframe>
-                </div>
-            """, unsafe_allow_html=True)
+        for _, row in daily_forecast.iterrows():
+            weather_main = row['weather'][0]['main']
+            weather_desc = row['weather'][0]['description'].capitalize()
+            temp = row['main']['temp']
+            feels_like = row['main']['feels_like']
+            humidity = row['main']['humidity']
+            wind_speed = row['wind']['speed']
+            date_str = row['dt'].strftime("%A, %d %b %Y")
 
-        st.markdown("---")
+            media = weather_media.get(weather_main, weather_media["Default"])
+
+            with st.container():
+                st.markdown(f"#### {media['icon']} {date_str}")
+                col1, col2 = st.columns([2, 1])
+                with col1:
+                    st.write(f"**Condition:** {weather_desc}")
+                    st.write(f"🌡️ Temperature: {temp}°C (Feels like {feels_like}°C)")
+                    st.write(f"💧 Humidity: {humidity}%")
+                    st.write(f"💨 Wind Speed: {wind_speed} m/s")
+                with col2:
+                    st.image(f"https://openweathermap.org/img/wn/{row['weather'][0]['icon']}@2x.png", width=80)
+
+            st.markdown("---")
+
         st.caption("🌍 Powered by OpenWeatherMap & curated weather videos 🎬")
+
     else:
         show_error()
