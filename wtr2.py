@@ -18,7 +18,7 @@ def load_city_country_pairs():
 
 city_df = load_city_country_pairs()
 
-# Weather condition media mapping (video backgrounds too)
+# Weather condition media mapping (icon, video for iframe, and background video)
 weather_media = {
     "Clear": {
         "icon": "☀️",
@@ -62,11 +62,7 @@ weather_media = {
     }
 }
 
-# Error Handler
-def show_error():
-    st.error("💥 Weather server dodged our request like a ninja! Try again or check your city name.")
-
-# Weather Fetcher
+# Weather API
 def get_weather(city, country, units="metric"):
     try:
         API_KEY = "4d8fb5b93d4af21d66a2948710284366"
@@ -79,6 +75,10 @@ def get_weather(city, country, units="metric"):
     except:
         return None
 
+# Error handler
+def show_error():
+    st.error("💥 Weather server dodged our request like a ninja! Try again or check your city name.")
+
 # Title
 st.markdown("""
     <h1 style='text-align:center; color:#4B89DC; font-family: "Segoe UI", sans-serif;'>
@@ -88,7 +88,7 @@ st.markdown("""
 
 st.write("Start typing your city and country:")
 
-# City Selector
+# Selectbox
 city_label = st.selectbox(
     "📍 Choose your location (City, Country)",
     options=city_df['label'].tolist(),
@@ -99,42 +99,39 @@ city_row = city_df[city_df['label'] == city_label].iloc[0]
 selected_city = city_row['city']
 selected_country = city_row['country']
 
-# Weather Query
-data = None
-media = weather_media["Default"]
-
+# Button click
 if st.button("🔍 Get Forecast"):
     data = get_weather(selected_city, selected_country)
     if data:
         weather_main = data['weather'][0]['main']
         media = weather_media.get(weather_main, weather_media["Default"])
 
-        # Inject dynamic background
+        # Inject background video
         st.markdown(
             f"""
             <style>
-            .video-bg {{
-                position: fixed;
-                right: 0;
-                bottom: 0;
-                min-width: 100%;
-                min-height: 100%;
-                z-index: -1;
-                opacity: 0.4;
-                object-fit: cover;
-            }}
             .stApp {{
                 background: transparent;
             }}
+            .weather-bg {{
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                object-fit: cover;
+                opacity: 0.4;
+            }}
             </style>
-            <video autoplay muted loop class="video-bg">
+            <video autoplay loop muted class="weather-bg">
                 <source src="{media['bg']}" type="video/mp4">
             </video>
             """,
             unsafe_allow_html=True
         )
 
-        # Show Weather Info
+        # Display forecast
         weather_desc = data['weather'][0]['description'].capitalize()
         temp = data['main']['temp']
         feels_like = data['main']['feels_like']
